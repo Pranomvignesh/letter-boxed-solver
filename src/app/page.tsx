@@ -50,13 +50,15 @@ export default function Home() {
     }).then(response => response.json())
       .then(json => {
         setResults(json)
-        const element = document.getElementById(resultsId);
-        if (element) {
-          window.scrollTo({
-            top: element.offsetTop + (element.offsetHeight / 2),
-            behavior: 'smooth'
-          });
-        }
+        setTimeout(() => {
+          const element = document.getElementById(resultsId);
+          if (element) {
+            window.scrollTo({
+              top: element.offsetTop + 300,
+              behavior: 'smooth'
+            });
+          }
+        }, 0);
       })
   }
   return (
