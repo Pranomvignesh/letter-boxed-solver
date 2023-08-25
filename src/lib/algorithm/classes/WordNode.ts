@@ -1,22 +1,11 @@
 export class WordNode {
-    constructor(char = '', data = {}) {
+    char: string = '';
+    children: Record<string, WordNode> = {};
+    endOfWord: string = '';
+    constructor(char = '') {
         this.char = char
-        this.children = data.children || {}
-        this.endOfWord = data.endOfWord || false
-
-        for (const char in this.children) {
-            this.children[char] = new WordNode(char, this.children[char])
-        }
+        this.children = {}
+        this.endOfWord = ''
         return this
-    }
-    json() {
-        const childJson = {}
-        for (const char in this.children) {
-            childJson[char] = this.children[char].json()
-        }
-        return {
-            children: childJson,
-            endOfWord: this.endOfWord
-        }
     }
 }

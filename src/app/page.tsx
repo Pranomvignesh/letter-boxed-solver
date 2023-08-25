@@ -17,6 +17,9 @@ const guardRails = z.string().max(3, {
   message: "Atleast 1 character is required",
 })
 
+type InputType = 'top' | 'left' | 'right' | 'bottom';
+type ResultsType = null | Array<[string, string]>
+
 const formSchema = z.object({
   top: guardRails,
   left: guardRails,
@@ -27,7 +30,7 @@ const formSchema = z.object({
 const flexCenter = `flex items-center justify-center `
 
 export default function Home() {
-  const [results, setResults] = useState(null)
+  const [results, setResults] = useState<ResultsType>(null)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,7 +41,7 @@ export default function Home() {
     },
   })
   const resultsId = 'results'
-  const inputs = ['top', 'left', 'right', 'bottom']
+  const inputs: InputType[] = ['top', 'left', 'right', 'bottom']
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values)
     fetch('/api/solver', {
@@ -50,7 +53,7 @@ export default function Home() {
         const element = document.getElementById(resultsId);
         if (element) {
           window.scrollTo({
-            top: element.offsetTop,
+            top: element.offsetTop + (element.offsetHeight / 2),
             behavior: 'smooth'
           });
         }
