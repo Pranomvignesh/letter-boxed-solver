@@ -1,113 +1,129 @@
-import Image from 'next/image'
+"use client";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import Image from "next/image";
+import Link from 'next/link';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
+import { useState } from "react";
+import ListView from "@/components/ui/listview";
+
+
+const guardRails = z.string().max(3, {
+  message: "Max of 3 Characters is allowed",
+}).min(1, {
+  message: "Atleast 1 character is required",
+})
+
+const formSchema = z.object({
+  top: guardRails,
+  left: guardRails,
+  right: guardRails,
+  bottom: guardRails
+})
+
+const flexCenter = `flex items-center justify-center `
 
 export default function Home() {
+  const [results, setResults] = useState(null)
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      top: "",
+      left: "",
+      right: "",
+      bottom: ""
+    },
+  })
+  const resultsId = 'results'
+  const inputs = ['top', 'left', 'right', 'bottom']
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log(values)
+    fetch('/api/solver', {
+      method: 'POST',
+      body: JSON.stringify(values)
+    }).then(response => response.json())
+      .then(json => {
+        setResults(json)
+        const element = document.getElementById(resultsId);
+        if (element) {
+          window.scrollTo({
+            top: element.offsetTop,
+            behavior: 'smooth'
+          });
+        }
+      })
+  }
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
+    <>
+      <main className='mt-12'>
+        <h1 className={`
+      ${flexCenter}
+      text-3xl md:text-3xl lg:text-5xl
+      mb-4
+      `}> Letter Box Solver </h1>
+        <section className={`${flexCenter} mx-auto w-[100px] h-[100px] md:w-[200px] md:h-[200px]`}>
+          <Link
+            className={`h-[100%]`}
+            href="https://www.nytimes.com/puzzles/letter-boxed">
             <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
+              src="https://www.nytimes.com/games-assets/v2/assets/expansion-games/letter-boxed-card-icon.svg"
+              alt="Image"
               width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+              height={100}
+              className="rounded-md object-cover w-[100px] h-[100px] md:w-[200px] md:h-[200px]" />
+          </Link>
+        </section>
+        <section className={`px-8 mt-5`}>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}>
+              <div className={`mb-5 flex flex-col justify-center items-center gap-5`}>
+                {inputs.map(input =>
+                  <FormField
+                    key={input}
+                    control={form.control}
+                    name={input}
+                    render={({ field }) => (
+                      <FormItem className={`w-[100%] max-w-sm form-input`} >
+                        <FormLabel className="flex justify-center w-[100%]">Letters on {input}</FormLabel>
+                        <FormControl>
+                          <Input
+                            className={`text-slate-800 w-[100%]`}
+                            placeholder={`Add letter on ${input}`} {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+              </div>
+              <div className={`container flex flex-row flex-wrap justify-center form-input`}>
+                <Button type="reset" className={"bg-slate-800 w-[100px]"} variant={"ghost"}>Clear</Button>
+                <Button type="submit" className={"bg-slate-800 w-[100px]"} variant={"outline"}>Predict</Button>
+              </div>
+            </form>
+          </Form>
+        </section>
+        <section id={resultsId} className={`px-8 mt-10`}>
+          {Array.isArray(results) && (results.length > 0 ? <>
+            <h1 className={`flex justify-center items-center text-2xl`}>Results:</h1>
+            <ListView results={results} />
+          </> : <h1 className={`flex justify-center items-center text-2xl`}>No Results Found</h1>)}
+        </section>
+      </main>
+      <footer className={"footer flex flex-row gap-2 items-center h-[60px]"}>
+        Made with
+        <svg className="heart" viewBox="0 0 22 18" width={20} height={20} focusable="false">
+          <path d="M15.5 6.44236e-08C14.6267 6.44236e-08 13.7655 0.203316 12.9844 0.593847C12.2034 0.984378 11.524 1.5514 11 2.25C10.2916 1.30553 9.30408 0.607875 8.17719 0.255861C7.0503 -0.096152 5.84122 -0.0846785 4.72122 0.288657C3.60121 0.661992 2.62707 1.37826 1.93676 2.336C1.24646 3.29375 0.875 4.44441 0.875 5.625C0.875 12.3656 10.2406 17.6812 10.6344 17.9062C10.7459 17.969 10.872 18.0013 11 18C11.1281 18.0022 11.2544 17.9698 11.3656 17.9062C13.0903 16.898 14.708 15.7169 16.1937 14.3812C19.4656 11.4375 21.125 8.49375 21.125 5.625C21.125 4.13316 20.5324 2.70242 19.4775 1.64752C18.4226 0.592632 16.9918 6.44236e-08 15.5 6.44236e-08Z" fill="#F47046"></path>
+        </svg>
+        by
+        <Link
+          className={'underline underline-offset-4'}
+          href={"https://github.com/pranomvignesh"}>PranomVignesh</Link>
+      </footer>
+    </>
   )
 }

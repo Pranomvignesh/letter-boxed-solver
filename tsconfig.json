@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/lib/algorithm/solver.js", "src/lib/algorithm/classes/LetterBoxFinder.js", "src/lib/algorithm/classes/Trie.js"],
   "exclude": ["node_modules"]
 }

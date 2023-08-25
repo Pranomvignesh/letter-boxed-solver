@@ -1,0 +1,127 @@
+{
+  "root": {
+    "a": {
+      "children": {
+        "a": {
+          "children": {
+            "a": {
+              "children": {},
+              "endOfWord": true
+            },
+            "c": {
+              "children": {
+                "h": {
+                  "children": {
+                    "e": {
+                      "children": {
+                        "n": {
+                          "children": {},
+                          "endOfWord": true
+                        }
+                      },
+                      "endOfWord": false
+                    }
+                  },
+                  "endOfWord": false
+                }
+              },
+              "endOfWord": false
+            },
+            "r": {
+              "children": {
+                "d": {
+                  "children": {
+                    "v": {
+                      "children": {
+                        "a": {
+                          "children": {
+                            "r": {
+                              "children": {
+                                "k": {
+                                  "children": {
+                                    "s": {
+                                      "children": {},
+                                      "endOfWord": true
+                                    }
+                                  },
+                                  "endOfWord": true
+                                }
+                              },
+                              "endOfWord": false
+                            }
+                          },
+                          "endOfWord": false
+                        }
+                      },
+                      "endOfWord": false
+                    },
+                    "w": {
+                      "children": {
+                        "o": {
+                          "children": {
+                            "l": {
+                              "children": {
+                                "f": {
+                                  "children": {},
+                                  "endOfWord": true
+                                },
+                                "v": {
+                                  "children": {
+                                    "e": {
+                                      "children": {
+                                        "s": {
+                                          "children": {},
+                                          "endOfWord": true
+                                        }
+                                      },
+                                      "endOfWord": false
+                                    }
+                                  },
+                                  "endOfWord": false
+                                }
+                              },
+                              "endOfWord": false
+                            }
+                          },
+                          "endOfWord": false
+                        }
+                      },
+                      "endOfWord": false
+                    }
+                  },
+                  "endOfWord": false
+                },
+                "h": {
+                  "children": {
+                    "u": {
+                      "children": {
+                        "s": {
+                          "children": {},
+                          "endOfWord": true
+                        }
+                      },
+                      "endOfWord": false
+                    }
+                  },
+                  "endOfWord": false
+                },
+                "o": {
+                  "children": {
+                    "n": {
+                      "children": {},
+                      "endOfWord": true
+                    }
+                  },
+                  "endOfWord": false
+                }
+              },
+              "endOfWord": false
+            }
+          },
+          "endOfWord": true
+        }
+      },
+      "endOfWord": true
+    }
+  }
+}
