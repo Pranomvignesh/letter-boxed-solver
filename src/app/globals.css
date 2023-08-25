@@ -137,5 +137,5 @@ body {
 
 #results {
   min-height: 200px;
-  height    : auto;
+  height    : 100%;
 }

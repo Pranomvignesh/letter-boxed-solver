@@ -54,7 +54,7 @@ export default function Home() {
           const element = document.getElementById(resultsId);
           if (element) {
             window.scrollTo({
-              top: element.offsetTop + 300,
+              top: element.offsetTop + element.offsetHeight,
               behavior: 'smooth'
             });
           }
@@ -112,7 +112,7 @@ export default function Home() {
             </form>
           </Form>
         </section>
-        <section id={resultsId} className={`px-8 mt-10`}>
+        <section id={resultsId} className={`px-8 mt-10 pb-[65px]`}>
           {Array.isArray(results) && (results.length > 0 ? <>
             <h1 className={`flex justify-center items-center text-2xl`}>Results:</h1>
             <ListView results={results} />
