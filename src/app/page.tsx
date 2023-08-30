@@ -15,6 +15,8 @@ const guardRails = z.string().max(3, {
   message: "Max of 3 Characters is allowed",
 }).min(1, {
   message: "Atleast 1 character is required",
+}).refine(value => /^[a-zA-Z]+$/.test(value), {
+  message: "Only alphabets are allowed"
 })
 
 type InputType = 'top' | 'left' | 'right' | 'bottom';
@@ -43,6 +45,10 @@ export default function Home() {
   const resultsId = 'results'
   const inputs: InputType[] = ['top', 'left', 'right', 'bottom']
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    for (let key in values) {
+      // @ts-ignore
+      values[key] = values[key].toLowerCase()
+    }
     console.log(values)
     fetch('/api/solver', {
       method: 'POST',

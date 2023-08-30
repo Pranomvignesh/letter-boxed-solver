@@ -9,7 +9,7 @@ export class LetterBoxFinder {
     trie: Trie;
     characterMapping: Record<string, string[]>;
     constructor(words: string[]) {
-        this.words = words;
+        this.words = words.map(word => word.toLowerCase());
         this.trie = new Trie(words);
         this.characterMapping = {}
         return this
@@ -18,6 +18,7 @@ export class LetterBoxFinder {
         this.characterMapping = {}
         for (let i = 0; i < 4; i++) {
             for (const char of edges[i]) {
+
                 this.characterMapping[char] = edges.reduce((acc, edge, index) => {
                     index !== i && acc.push(...edge)
                     return acc
